@@ -1,6 +1,7 @@
 const { ApolloServer, gql } = require('apollo-server');
+const { PrismaClient } = require('@prisma/client');
 
-const { data } = require('./assets');
+const prisma = new PrismaClient();
 
 const typeDefs = gql`
   type Client {
@@ -17,7 +18,10 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    clients: () => data.client,
+    clients: async () => {
+      const clients = await prisma.client.findMany();
+      return clients;
+    },
   },
 };
 
