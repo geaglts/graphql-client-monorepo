@@ -1,33 +1,9 @@
-const { ApolloServer, gql } = require('apollo-server');
-const { PrismaClient } = require('@prisma/client');
+import { ApolloServer } from 'apollo-server';
 
-const prisma = new PrismaClient();
-
-const typeDefs = gql`
-  type Client {
-    id: ID
-    name: String
-    email: String
-    phone: String
-  }
-
-  type Query {
-    clients: [Client]
-  }
-`;
-
-const resolvers = {
-  Query: {
-    clients: async () => {
-      const clients = await prisma.client.findMany();
-      return clients;
-    },
-  },
-};
+import { schema } from './graphql';
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
   cache: 'bounded',
   csrfPrevention: true,
 });

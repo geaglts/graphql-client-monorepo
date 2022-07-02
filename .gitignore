@@ -3,3 +3,7 @@ yarn.lock
 *.env
 *.db
 *.db-journal
+
+# distributions
+dist
+lib
